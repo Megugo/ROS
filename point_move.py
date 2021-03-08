@@ -2,8 +2,8 @@
 
 import rospy
 from geometry_msgs.msg import Twist, Point
-from std_msgs.msg import String
-import std_msgs.msg
+#from std_msgs.msg import String
+#import std_msgs.msg
 from gazebo_msgs.srv import GetModelState
 from tf.transformations import euler_from_quaternion
 from math import atan2
