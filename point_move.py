@@ -54,7 +54,7 @@ while not rospy.is_shutdown():
 		speed.linear.x = 0.0
 		speed.angular.z = 0.0
 	else:
-		speed.linear.x = 1
+		speed.linear.x = 0.5
 		speed.angular.z = 0.0
 	#print(inc_x, inc_y)
 	pub.publish(speed)
