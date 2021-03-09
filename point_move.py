@@ -59,27 +59,7 @@ while not rospy.is_shutdown():
 	#print(inc_x, inc_y)
 	pub.publish(speed)
 	rate.sleep()
-#pub = rospy.Publisher("lab2_master", String, queue_size=1)
-#rospy.init_node('lab2_master_node')
-#rate = rospy.Rate(10) # 10hz
-#while 1:
-#foo = raw_input()
-#for i in range(1):
-	#pub.publish(std_msgs.msg.String(foo))
-	#rate.sleep()
-	#sub = rospy.Subscriber("/lab2_master", Point, callback)
-
-#print(_get_yaw_angle('rosbots'))
-#print(_get_coords('rosbots'))
-
-
-
-#pub = rospy.Publisher('/part2_cmr/cmd_vel', Twist, queue_size=1)
-#rate = rospy.Rate(10)  # 10hz
-#cmd = Twist()
-#cmd.linear.x = 0.5
-#for i in range(10):
-    #pub.publish(cmd)
-    #rate.sleep()
-#cmd = Twist()
-#pub.publish(cmd)
+speed.linear.x = 0.0
+speed.angular.z = 0.0
+pub.publish(speed)
+rate.sleep()
