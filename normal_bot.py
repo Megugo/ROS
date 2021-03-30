@@ -88,7 +88,7 @@ while not rospy.is_shutdown():
             creputation[MAS_id[1]-1] = buff/time
         k = 1
         for i in creputation:
-            if i < 0.4:
+            if i < 0.1:
                 print ("Robot", k, "imposter", i)
                 exit(1)
             elif i == 0.75:
