@@ -48,49 +48,6 @@ def callback1(data):
 def callback2(data):
     data_c[MAS_id[1]-1] = int(data.data)
     #print(2)
-    #callback()
-
-def callback():
-    global data_c
-    global cur_id
-    global time
-
-
-
-def rep_change(I0,I1):
-    rt = [I0,I1]
-    #for i in rt:
-    if I0 >= 0.5:
-        buff = 0.75 + truth_p[0]
-        if buff > 1: buff = 1
-        preputation[MAS_id[0]-1] = creputation[MAS_id[0]-1]
-        creputation[MAS_id[0]-1] = buff
-    else:
-        print("I0", I0)
-        buff = 0.75 + truth_p[0] - (creputation[MAS_id[0]-1] - exp(-(1-I0)*time))
-        preputation[MAS_id[0]-1] = creputation[MAS_id[0]-1]
-        creputation[MAS_id[0]-1] = buff
-    if I1 >= 0.5:
-        buff = 0.75 + truth_p[1]
-        if buff > 1: buff = 1
-        preputation[MAS_id[1]-1] = creputation[MAS_id[1]-1]
-        creputation[MAS_id[1]-1] = buff
-    else:
-        print("I1", I1)
-        buff = creputation[MAS_id[1]-1] + (truth_p[1]) - (creputation[MAS_id[1]-1] - exp(-(1-I1)*time))
-        preputation[MAS_id[1]-1] = creputation[MAS_id[1]-1]
-        creputation[MAS_id[1]-1] = buff
-    k = 1
-    #os.system("clear")
-    for i in creputation:
-        if i < 0.5:
-            print ("Robot", k, "bandit -", i)
-            exit(1)
-        elif i == 0.75:
-            print ("Robot", k, "Eto ia))", i)
-        else:
-            print ("Robot", k, "norm - ", i)
-        k+=1
 
 rospy.Subscriber(f"/bot_{str(int(sys.argv[1])-1)}/laser/scan", LaserScan, laser_callback)
 rospy.Subscriber(f"/lidar_check_{str(MAS_id[0])}", String, callback1)
@@ -111,36 +68,29 @@ while not rospy.is_shutdown():
     #for i in rt:
     if I0 >= 0.5:
         buff = 0.75 + truth_p[0]
-        #if buff > 1: buff = 1
         preputation[MAS_id[0]-1] = creputation[MAS_id[0]-1]
         creputation[MAS_id[0]-1] = buff/time
     else:
-        #print("I0", I0)
-        buff = 0.75 + truth_p[0] - (creputation[MAS_id[0]-1] - exp(-(1-I0)*time))
+        buff = 0.75 + truth_p[0] - (preputation[MAS_id[0]-1] - exp(-(1-I0)*time))
         preputation[MAS_id[0]-1] = creputation[MAS_id[0]-1]
         creputation[MAS_id[0]-1] = buff/time
     if I1 >= 0.5:
         buff = 0.75 + truth_p[1]
-        #if buff > 1: buff = 1
         preputation[MAS_id[1]-1] = creputation[MAS_id[1]-1]
         creputation[MAS_id[1]-1] = buff/time
     else:
-        #print("I1", I1)
-        #print("truth_p[1]", truth_p[1])
-        #print("-", creputation[MAS_id[1]-1] - exp(-(1-I1)*time))
         buff = 0.75 + (truth_p[1]) - (preputation[MAS_id[1]-1] - exp(-(1-I1)*time))
         preputation[MAS_id[1]-1] = creputation[MAS_id[1]-1]
         creputation[MAS_id[1]-1] = buff/time
     k = 1
-    #os.system("clear")
     for i in creputation:
         if i < 0.4:
-            print ("Robot", k, "bandit -", i)
+            print ("Robot", k, "imposter", i)
             exit(1)
         elif i == 0.75:
-            print ("Robot", k, "Eto ia))", i)
+            print ("Robot", k, "my rate", i)
         else:
-            print ("Robot", k, "norm - ", i)
+            print ("Robot", k, "OK", i)
         k+=1
     rate.sleep()
     pass
